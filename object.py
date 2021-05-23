@@ -69,6 +69,8 @@ class OBJphysicsPropertiesClass:
         if type(m) not in [int, float]: raise TypeError('')
         if m < 0: raise ValueError('')
         self.m = m
+        self.externalForces = {}
+        self.temporaryForces = []
 class Object:
     def __init__(self, _base, xy, pyGame, phys):
         #IMPLEMENTED:
@@ -87,3 +89,5 @@ class Object:
         self.pyGame = pyGame
         if type(phys) != OBJphysicsPropertiesClass: raise TypeError('')
         self.phys = phys
+    def acceleration(self):
+        return (sum(externalForces)+sum(temporaryForces)).mulBy(1/self.m)
