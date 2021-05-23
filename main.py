@@ -29,9 +29,25 @@ print(f'loading time: {end - start}s')
 
 #####
 
+def run():
+    # FPS settings
+    FPS_max = 60.0
+    FPS_delta = 0.0
+    FPS_clock = Clock()
+    
+    # Game loop
+    while True:
+        FPS_delta += FPS_clock.tick() / 1000.0
+        if FPS_delta > 1 / FPS_max:
 
+            gf.check_events(screen)
+            gf.update_tick()
+            gf.update_screen(screen)
 
+            FPS_delta -= 1 / FPS_max
 
 #####
+
+run()
 
 pygame.quit()
