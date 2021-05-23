@@ -17,11 +17,14 @@ class screenObject:
         self.screen = pointer
 
 class BASEpyGameConfigClass:
-    def __init__(self, screen):
+    def __init__(self, screen, framerate):
         #IMPLEMENTED:
         # screenObject
         if type(screen) != screenObject: raise TypeError('BASEpyGameConfigClass.__init__().screen')
         self.screen = screen
+        if type(framerate) != int: raise TypeError('')
+        if framerate <= 0: raise ValueError('')
+        self.framerate = framerate
 
 class BASEphysicsConfigClass:
     def __init__(self, gravitationalAcceleration=v(0,10), bounceCoefficient=1.0):
@@ -58,23 +61,25 @@ class base:
         if ID not in self.obj: raise ValueError( 'base.removeObj(),ID' )
         self.obj.pop(ID)
     def cycle(self):
+        self.pyGame.screen.screen.fill((255, 255, 255))
         for ID, object in self.obj.items():
             object.computePhysics()
             object.draw()
             object.endCycle()
+            pygame.display.flip()
 
 class OBJpyGamePropertiesClass:
     def __init__(self):
         pass
 class OBJphysicsPropertiesClass:
-    def __init__(self, m):
+    def __init__(self, mass):
         #IMPLEMENTED:
         # mass
-        if type(m) not in [int, float]: raise TypeError('')
-        if m < 0: raise ValueError('')
-        self.m = m
-        self.externalForces = {}
-        self.temporaryForces = []
+        if type(mass) not in [int, float]: raise TypeError('')
+        if mass < 0: raise ValueError('')
+        self.mass = mass
+        self.externalForces = {'1':v(0,0)}
+        self.temporaryForces = [v(0,0)]
 class Object:
     def __init__(self, _base, xy, pyGame, phys, r):
         #IMPLEMENTED:
@@ -91,16 +96,30 @@ class Object:
         self.r = r
         self.x = xy[0]
         self.y = xy[1]
-        self.pos = (self.x, self.y)
         if type(pyGame) != OBJpyGamePropertiesClass: raise TypeError('')
         self.pyGame = pyGame
         if type(phys) != OBJphysicsPropertiesClass: raise TypeError('')
         self.phys = phys
+        self.v0 = v(0,0)
     def acceleration(self):
-        return (sum(externalForces)+sum(temporaryForces)).mulBy(1/self.m)
+        externalForcesSum = v(0,0)
+        for i in self.phys.externalForces:
+            externalForcesSum += self.phys.externalForces[i]
+        temporaryForcesSum = v(0,0)
+        for i in self.phys.temporaryForces:
+            temporaryForcesSum += i
+        return (externalForcesSum+temporaryForcesSum).mulBy(1/self.phys.mass) + self.base.phys.gravitationalAcceleration
+    def velocity(self):
+        return (
+            self.v0 + self.acceleration()
+        ).mulBy(1/self.base.pyGame.framerate)
     def computePhysics(self):
-        pass
+        velocity = self.velocity()
+        self.x += velocity.x/self.base.pyGame.framerate
+        self.y += velocity.y/self.base.pyGame.framerate
     def draw(self):
-        pygame.draw.circle(self.base.pyGame.screen.screen, self.color, self.pos, self.r)
+        pygame.draw.circle(self.base.pyGame.screen.screen, self.color, self.pos(), self.r)
     def endCycle(self):
         pass
+    def pos(self):
+        return (int(self.x), int(self.y))

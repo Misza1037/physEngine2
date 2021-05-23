@@ -1,5 +1,6 @@
 import pygame as pg, sys
-def check_events(screen, base):
+def check_events(base):
+    screen = base.pyGame.screen.screen
     """ Reakcja na zdarzenia."""
     for event in pg.event.get():
         # Quitting the game

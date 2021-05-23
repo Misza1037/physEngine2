@@ -35,4 +35,4 @@ class Vector:
     #mulBY:<vector>, <int/float>
     def mulBy(self, value):
         if type(value) not in [int, float]: raise TypeError('')
-        return self.vector(self.x*value, self.y*value)
+        return Vector(self.x*value, self.y*value)

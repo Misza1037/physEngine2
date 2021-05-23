@@ -16,7 +16,7 @@ pygame.init()
 screenSize = [500, 500]
 screen = pygame.display.set_mode(screenSize)
 SCREEN = screenObject(screenSize, screen)
-_basePyGame  = BASEpyGameConfigClass(SCREEN)
+_basePyGame  = BASEpyGameConfigClass(SCREEN, framerate=10)
 _basePhysics = BASEphysicsConfigClass()
 BASE = base(_basePyGame, _basePhysics)
 
@@ -24,7 +24,7 @@ BASE = base(_basePyGame, _basePhysics)
 
 
 
-BASE.addObj('ball', Object(BASE, [100,100], OBJpyGamePropertiesClass(), OBJphysicsPropertiesClass(1)))
+BASE.addObj('ball', Object(BASE, [250, 250], OBJpyGamePropertiesClass(), OBJphysicsPropertiesClass(1), 50))
 
 
 
@@ -37,9 +37,9 @@ print(f'loading time: {end - start}s')
 
 def run():
     # FPS settings
-    FPS_max = 60.0
-    FPS_delta = 0.0
-    FPS_clock = Clock()
+    #FPS_max = 60.0
+    #FPS_delta = 0.0
+    #FPS_clock = Clock()
 
     # Game loop
     while True:
@@ -52,7 +52,9 @@ def run():
             FPS_delta -= 1 / FPS_max
 
 #####
-
-run()
+mainLoopRunning=True
+while mainLoopRunning:
+    check_events(BASE)
+    BASE.cycle()
 
 pygame.quit()
