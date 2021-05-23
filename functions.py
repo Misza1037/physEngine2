@@ -1,11 +1,12 @@
-def check_events(screen):
+import pygame as pg, sys
+def check_events(screen, base):
     """ Reakcja na zdarzenia."""
     for event in pg.event.get():
         # Quitting the game
         if event.type == pg.QUIT or event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
             sys.exit()
 
-            
+
 def update_screen(screen, player, tears, flies):
     """Aktualizowanie ekranu."""
     # DRAWING
