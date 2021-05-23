@@ -57,7 +57,10 @@ class base:
     def removeObj(self, ID):
         if ID not in self.obj: raise ValueError( 'base.removeObj(),ID' )
         self.obj.pop(ID)
-
+    def cycle():
+        for ID, object in self.obj.items():
+            object.computePhysics()
+            object.draw()
 
 class OBJpyGamePropertiesClass:
     def __init__(self):
