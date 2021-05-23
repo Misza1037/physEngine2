@@ -76,7 +76,7 @@ class OBJphysicsPropertiesClass:
         self.externalForces = {}
         self.temporaryForces = []
 class Object:
-    def __init__(self, _base, xy, pyGame, phys):
+    def __init__(self, _base, xy, pyGame, phys, r):
         #IMPLEMENTED:
         # BASE
         # x, y coordinates
@@ -87,8 +87,11 @@ class Object:
         if type(xy) != list: raise TypeError('')
         if len(xy) != 2: raise ValueError('')
         if type(xy[0]) not in [int, float] or type(xy[1]) not in [int, float]: raise TypeError('')
+        self.color = (0, 0, 0)
+        self.r = r
         self.x = xy[0]
         self.y = xy[1]
+        self.pos = (self.x, self.y)
         if type(pyGame) != OBJpyGamePropertiesClass: raise TypeError('')
         self.pyGame = pyGame
         if type(phys) != OBJphysicsPropertiesClass: raise TypeError('')
@@ -98,6 +101,6 @@ class Object:
     def computePhysics(self):
         pass
     def draw(self):
-        pass
+        pygame.draw.circle(self.base.pyGame.screen.screen, self.color, self.pos, self.r)
     def endCycle(self):
         pass
