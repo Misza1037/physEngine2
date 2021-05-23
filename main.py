@@ -21,9 +21,9 @@ BASE = base(_basePyGame, _basePhysics)
 
 
 BASE.addObj('ball', Object(BASE, [100,100], OBJpyGamePropertiesClass(), OBJphysicsPropertiesClass(1)))
-#for ID, object in BASE.obj.items():
-    #BASE.obj[ID] == object
-
+for ID, object in BASE.obj.items():
+    object.computePhysics()
+    object.draw()
 end = time()
 print(f'loading time: {end - start}s')
 
