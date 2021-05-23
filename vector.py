@@ -30,7 +30,7 @@ class Vector:
 
     #__repr__->__str__:<vector>
     def __repr__(sefl):
-        return self.__str__()
+        return '<vector>'
 
     #mulBY:<vector>, <int/float>
     def mulBy(self, value):
