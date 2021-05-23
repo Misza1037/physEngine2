@@ -24,7 +24,14 @@ BASE.addObj('ball', Object(BASE, [100,100], OBJpyGamePropertiesClass(), OBJphysi
 #for ID, object in BASE.obj.items():
     #BASE.obj[ID] == object
 
-
 end = time()
 print(f'loading time: {end - start}s')
+
+#####
+
+
+
+
+#####
+
 pygame.quit()
